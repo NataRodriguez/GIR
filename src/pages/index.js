@@ -14,6 +14,8 @@ export default function Home() {
   const scrollToTop = useCallback(() => {
     document.getElementById('Inicio').scrollIntoView({ behavior: 'smooth' });
   }, []);
+
+  
   return (
     <div>
       <Head>

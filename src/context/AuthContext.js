@@ -7,26 +7,37 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [reservaData, setReservaData] = useState({
+    especialidad: '',
+    comuna: '',
+    servicio: ''
+  });
 
+  // Cargar el usuario de localStorage al iniciar
   useEffect(() => {
-    const nombre = localStorage.getItem('nombre'); // Guarda el nombre del usuario en localStorage
+    const nombre = localStorage.getItem('nombre');
     if (nombre) {
       setUser({ nombre });
     }
   }, []);
 
   const login = (userData) => {
-    localStorage.setItem('nombre', userData.nombre); // Almacena el nombre en localStorage
+    localStorage.setItem('nombre', userData.nombre);
     setUser(userData);
   };
 
   const logout = () => {
-    localStorage.removeItem('nombre'); // Limpia el localStorage
+    localStorage.removeItem('nombre');
     setUser(null);
   };
 
+  // Función para actualizar los datos de la reserva
+  const updateReservaData = (data) => {
+    setReservaData(data);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, reservaData, updateReservaData }}>
       {children}
     </AuthContext.Provider>
   );

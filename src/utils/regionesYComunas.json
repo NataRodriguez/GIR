@@ -1,0 +1,6 @@
+{
+    "regiones": {
+        "Metropolitana": ["Santiago", "Las Condes", "Providencia"],
+        "Valparaíso": ["Viña del Mar"]
+    }
+}

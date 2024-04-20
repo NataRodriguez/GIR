@@ -1,23 +1,25 @@
-// pages/api/horarios.js
 import dynamoDb from '../../utils/awsConfig';
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const { profesionalIds } = req.body; // Array de IDs de profesionales
-        const keys = profesionalIds.map(id => ({ profesionalId: { S: id } }));
-
-        const params = {
-            RequestItems: {
-                "HorariosProfesionales": {
-                    Keys: keys,
-                    ProjectionExpression: "horarioId, diaSemana, duracionCita, horaInicioDia, horaFinDia, profesionalId"
+        const { profesionalIds } = req.body; // Asegúrate de que estos IDs sean strings
+        const promises = profesionalIds.map(profesionalId => {
+            const params = {
+                TableName: "HorariosProfesionales",
+                IndexName: "ProfesionalIdIndex",
+                KeyConditionExpression: "profesionalId = :profesionalId",
+                ExpressionAttributeValues: {
+                    ":profesionalId": String(profesionalId)  // Convertir a String si es necesario
                 }
-            }
-        };
-
+            };
+            console.log(params);
+            return dynamoDb.query(params).promise();
+        });
         try {
-            const data = await dynamoDb.batchGet(params).promise();
-            res.status(200).json({ horarios: data.Responses.HorariosProfesionales });
+            const results = await Promise.all(promises);
+            console.log(results);
+            const horarios = results.map(result => result.Items).flat();
+            res.status(200).json({ horarios });
         } catch (error) {
             console.error("Error fetching schedules:", error);
             res.status(500).json({ error: "Error fetching schedules" });

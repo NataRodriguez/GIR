@@ -33,6 +33,7 @@ export default function Reserva() {
           body: JSON.stringify({ profesionalIds })
         });
         const data = await response.json();
+        console.log(data);
         return data.horarios;
       } catch (error) {
         console.error('Error loading schedules:', error);
@@ -54,12 +55,16 @@ export default function Reserva() {
             })
           });
           const data = await response.json();
-          const profesionalIds = data.map(prof => prof.profesionalId.S);
-          const horarios = await fetchHorarios(profesionalIds);
-          setHorarios(horarios);
+          if (data && Array.isArray(data)) {
+            const profesionalIds = data.map(prof => prof.profesionalId); // Asumiendo que profesionalId es un string o número directo
+            const horarios = await fetchHorarios(profesionalIds);
+            setHorarios(horarios);
+          } else {
+            console.log("Sin Datos o formato incorrecto:", data);
+          }
           setLoading(false);
         } catch (error) {
-          console.error('Error fetching professionals:', error);
+          console.error('Error al traer los profesionales:', error);
           setLoading(false);
         }
       }

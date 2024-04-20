@@ -41,7 +41,11 @@ export default function Navbar() {
           <div className="flex items-center space-x-3">
             {user ? (
               <>
-                <span>Bienvenido, {user.nombre}</span>
+                <div className='text-black'> 
+                  <span>Bienvenido, {user.nombre}</span>
+                  <span>  |  </span>
+                  <span>Mis datos</span>
+                </div>
                 <button onClick={logout} className="bg-purple-700 hover:bg-purple-800 px-4 py-2 rounded transition duration-300">
                   Cerrar Sesión
                 </button>

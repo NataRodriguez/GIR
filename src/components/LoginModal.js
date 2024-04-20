@@ -22,12 +22,12 @@ const LoginModal = ({ isOpen, onClose }) => {
       });
 
       const data = await response.json();
-
+      console.log(data.id);
       if (!response.ok) {
         throw new Error(data.message  || 'Ocurrió un error al iniciar sesión');
       }
-  
-      login({ nombre: data.nombre }); // Actualiza el estado de la sesión con el nombre del usuario
+      
+      login({ nombre: data.nombre, id: data.id }); // Actualiza el estado de la sesión con el nombre del usuario
       onClose(); // Cierra el modal
     } catch (error) {
       setError(error.message);

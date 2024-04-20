@@ -22,7 +22,6 @@ export default async function handler(req, res) {
 
   try {
     const { Items } = await dynamoDb.query(paramsQuery).promise();
-
     if (Items.length === 0) {
       // El usuario no está registrado
       return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -46,7 +45,7 @@ export default async function handler(req, res) {
 
 
     // Contraseña correcta, usuario autenticado exitosamente
-    res.status(200).json({ message: 'Login exitoso', nombre: usuario.nombre, token  });
+    res.status(200).json({ message: 'Login exitoso', nombre: usuario.nombre, id: usuario.usuarioId, token  });
   } catch (error) {
     console.log('Error en el login:', error);
     res.status(500).json({ message: 'Error al procesar el login' });

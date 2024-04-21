@@ -5,6 +5,7 @@ import Footer from '../components/footer';
 import DatosUsuario from '../components/DatosUsuario';
 import { useCallback } from 'react';
 
+
 export default function Cuenta() {
   const [mostrarDatosUsuario, setMostrarDatosUsuario] = useState(false);
   const [opcionSeleccionada, setOpcionSeleccionada] = useState(1);

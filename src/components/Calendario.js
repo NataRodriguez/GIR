@@ -45,15 +45,26 @@ function Calendar({ horarios }) {
       <div className="grid grid-cols-7 gap-4">
         {days.map((day, index) => {
           const isPast = day && day < new Date(new Date().setHours(0, 0, 0, 0));
-          const isEnabled = day && isDayEnabled(day);
+          const isEnabled = day && isDayEnabled(day) && !isPast;
+          const isEmpty = !day;
           const isSelected = day && selectedDate && day.getTime() === selectedDate.getTime();
+
+          const styles = {
+            base: 'w-28 h-28 flex items-center justify-center rounded-lg text-lg transition duration-200 ease-in-out border-2',
+            initial: 'bg-blue-100 hover:bg-blue-200 border-blue-200 hover:border-blue-300 border-solid cursor-pointer',
+            empty: 'hover:bg-white border-dashed border-gray-100 cursor-default',
+            disabled: 'hover:bg-gray-100 text-gray-300 border-dashed border-gray-200 cursor-not-allowed',
+            selected: 'bg-blue-800 hover:bg-blue-700 border-blue-900 text-white',
+          };
+
+          const styleStatus = isEmpty ? styles.empty : !isEnabled ? styles.disabled : isSelected ? styles.selected : styles.initial;
 
           return (
             <button
               key={index}
-              disabled={!isEnabled || isPast}
-              onClick={() => isEnabled && !isPast && setSelectedDate(day)}
-              className={`w-28 h-28 flex items-center justify-center rounded-lg text-lg transition duration-200 ease-in-out ${isPast || !isEnabled ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : isSelected ? 'bg-blue-500 text-white' : 'bg-white hover:bg-blue-100 cursor-pointer'} `}
+              disabled={!isEnabled}
+              onClick={() => isEnabled ? setSelectedDate(day) : null}
+              className={`${styles.base} ${styleStatus}`}
             >
               {day ? day.getDate() : ''}
             </button>
@@ -64,7 +75,7 @@ function Calendar({ horarios }) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full mt-4 mb-4">
+    <div className="flex flex-col items-center w-full mt-4 mb-4 text-gray-600">
       <div className="flex justify-between items-center w-1/2 mb-4">
         <button onClick={goToPreviousMonth} className="p-2 rounded-full bg-gray-200 hover:bg-gray-300">
           &lt;

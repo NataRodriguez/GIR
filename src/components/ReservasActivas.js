@@ -1,23 +1,17 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import Head from 'next/head';
-import Navbar from '../components/Layout/Navbar';
-import Footer from '../components/Layout/Footer';
-import ScrollToTop from '../components/Layout/ScrollToTop';
-import Calendar from '../components/Calendario'; // Asegúrate de que Calendar esté importado si lo estás utilizando
+import Calendar from './Calendario'; // Asegúrate de que Calendar esté importado si lo estás utilizando
 import { useAuth } from '../context/AuthContext';  // Ajusta la ruta según la ubicación real
-import Spinner from '../components/Spinner';
+import Spinner from './Spinner';
 
-export default function Reserva() {
+export default function ReservasActivas() {
   const { reservaData } = useAuth();
   const [loading, setLoading] = useState(true);
   const [horarios, setHorarios] = useState([]);  // Estado para almacenar los horarios
-
   const [message, setMessage] = useState('Cargando...'); // Mensaje inicial de carga
 
   useEffect(() => {
       if (reservaData.especialidad && reservaData.comuna && reservaData.servicio) {
         setMessage(`Buscando tu hora con un/a ${reservaData.especialidad}, en ${reservaData.comuna} para tu ${reservaData.servicio}`);
-
           setTimeout(() => {
             setLoading(false);
             setMessage(`Selecciona tu hora con tu ${reservaData.especialidad}, en ${reservaData.comuna} para tu ${reservaData.servicio}`);
@@ -69,39 +63,23 @@ export default function Reserva() {
           setLoading(false);
         }
       }
-    };
-  
+    };  
     fetchProfesionales();
   }, [reservaData]);
-  
+
   return (
-    <div>
-      <Head>
-        <title>GIR - Reserva</title>
-        <meta name="description" content="GIR" />
-        <link rel="icon" href="/favicon.ico" />
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-      </Head>
-
-      <Navbar />
-
-      <main className="flex flex-col items-center justify-center h-screen bg-white text-grey-800">
-        {loading ? (
-          <div>
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">{message}</h2>
-            <Spinner />
-          </div>
-          
-        ) : (
-          <>
-            <h2 className="text-xl font-semibold text-gray-700 mb-4">{message}</h2>
-            <Calendar horarios={horarios} />
-          </>
-        )}
-      </main>
-
-      <Footer />
-      <ScrollToTop />
+    <div className="flex flex-col items-center justify-center h-screen">
+      {loading ? (
+        <div>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">{message}</h2>
+          <Spinner />
+        </div>
+      ) : (
+        <>
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">{message}</h2>
+          <Calendar horarios={horarios} />
+        </>
+      )}
     </div>
   );
 }

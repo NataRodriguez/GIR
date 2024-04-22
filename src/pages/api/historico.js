@@ -1,8 +1,7 @@
-// Importa AWS SDK
 import { DynamoDB } from 'aws-sdk';
 
 // Función para obtener el historial de reservas por usuario
-export const obtenerHistorialReservasPorUsuario = async (usuarioId) => {
+export const obtenerReservasPorUsuario = async (usuarioId) => {
   try {
     // Configura el cliente de DynamoDB
     const dynamoDBClient = new DynamoDB.DocumentClient();
@@ -10,7 +9,10 @@ export const obtenerHistorialReservasPorUsuario = async (usuarioId) => {
     // Define los parámetros de la consulta
     const params = {
       TableName: 'Reservas',
-      FilterExpression: 'usuarioId = :id',
+      FilterExpression: '#userId = :id', // Usando ExpressionAttributeNames
+      ExpressionAttributeNames: {
+        '#userId': 'usuarioId', // Remapeo de nombre de atributo
+      },
       ExpressionAttributeValues: {
         ':id': usuarioId,
       },

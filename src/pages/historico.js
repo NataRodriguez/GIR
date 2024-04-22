@@ -3,7 +3,7 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer'; 
 import Head from 'next/head';
 import { useCallback } from 'react'; 
-// import HistoricoReservas from '../components/HistoricoReservas';   --- Si lo activo da error en las páginas
+// import HistoricoReservas from '../components/HistoricoReservas'; -- comento esta linea porque al dejarla activa da error en las páginas
 
 const scrollToTop = useCallback(() => {
   document.getElementById('Inicio').scrollIntoView({ behavior: 'smooth' });

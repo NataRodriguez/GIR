@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { obtenerReservasPorUsuario } from '../api';
+import { obtenerReservasPorUsuario } from '../../../pages/api/historico';
 import { useAuth } from '../context/AuthContext'; // Importa el contexto de autenticación
 
-const Reservas = () => {
+const HistoricoReservas = () => {
   const [reservas, setReservas] = useState([]); 
   const { usuario } = useAuth(); // Obtén el objeto de usuario autenticado del contexto de autenticación
 
   useEffect(() => {
-    if (usuario) { // Verifica si el usuario está autenticado
-      obtenerReservas(usuario.id); // Pasamos el ID del usuario autenticado a la función obtenerHistorialReservas
-    }
-  }, [usuario]); // Ejecuta este efecto cada vez que el usuario cambie
+    const obtenerHistorialReservas = async (usuarioId) => { // Define la función dentro del efecto
+      try {
+        if (usuario) { // Verifica si el usuario está autenticado
+          let historial = await obtenerReservasPorUsuario(usuario.id);
+          historial.sort((a, b) => new Date(b.fechaHora) - new Date(a.fechaHora)); // Ordena el historial de reservas por fecha y hora, de la más nueva a la más antigua
+          setReservas(historial); 
+        }
+      } catch (error) {
+        console.error('Error al obtener el historial de reservas:', error);
+      }
+    };
 
-  const obtenerReservas = async (usuarioId) => {
-    try {
-      let historial = await obtenerReservasPorUsuario(usuarioId);
-      historial.sort((a, b) => new Date(b.fechaHora) - new Date(a.fechaHora)); // Ordena el historial de reservas por fecha y hora, de la más nueva a la más antigua
-      setReservas(historial); 
-    } catch (error) {
-      console.error('Error al obtener el historial de reservas:', error);
-    }
-  };
+    obtenerHistorialReservas(); // Llama a la función directamente en el efecto sin depender de [usuario]
+
+  }, [usuario]); // Ejecuta este efecto cada vez que el usuario cambie
 
   return (
     <div>

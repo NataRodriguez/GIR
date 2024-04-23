@@ -4,10 +4,9 @@ import Footer from '../components/footer';
 import Head from 'next/head';
 // import HistoricoReservas from '../components/HistoricoReservas'; -- comento esta linea porque al dejarla activa da error en las páginas
 
-
 const Historico = () => {
   const [opcionSeleccionada, setOpcionSeleccionada] = useState(2); // Por defecto, mostrar Historico Reservas
-  
+
   const handleClick = (opcion) => {
     setOpcionSeleccionada(opcion);
   };
@@ -55,7 +54,7 @@ const Historico = () => {
             </ul>
           </div>
           <div className="flex-1">
-            {opcionSeleccionada === 2 && <HistoricoReservas />} {/* Mostrar HistoricoReservas solo si está seleccionada la opción 2 */}
+            <HistoricoReservas /> {/* Mostrar HistoricoReservas sin importar la opción seleccionada */}
           </div>
         </div>
       </main>

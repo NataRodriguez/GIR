@@ -1,4 +1,4 @@
-export default function SobreNosotros() {
+function SobreNosotros() {
   return (
     <section id="sobreNosotros" className="py-16 bg-gray-300 text-gray-800">
       <div className="flex flex-wrap items-center justify-around my-12">
@@ -33,3 +33,5 @@ export default function SobreNosotros() {
     </section>
   );
 }
+
+export default SobreNosotros;

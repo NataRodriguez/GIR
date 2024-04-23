@@ -1,10 +1,9 @@
-import { useState } from 'react';
+// src/components/Navbar.js
+import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import LoginModal from '../LoginModal';
+import RegisterModal from '../RegisterModal';
 import { useAuth } from '../../context/AuthContext.js';
-import LoginModal from '../Modals/LoginModal.js';
-import RegisterModal from '../Modals/RegisterModal.js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCog, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 export default function Navbar() {
   const {user, logout} = useAuth();
@@ -48,10 +47,10 @@ export default function Navbar() {
                   <span>Bienvenido, {user.nombre}</span>
                 </div>                
                 <button onClick={() => window.location.href = '/cuenta'} className="bg-purple-700 hover:bg-purple-800 px-4 py-2 rounded transition duration-300">
-                  <FontAwesomeIcon icon={faCog} />
+                  Mi Cuenta
                 </button>
                 <button onClick={logout} className="bg-purple-700 hover:bg-purple-800 px-4 py-2 rounded transition duration-300">
-                  <FontAwesomeIcon icon={faRightFromBracket} />
+                  Cerrar Sesión
                 </button>
               </>
             ) : (

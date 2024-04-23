@@ -85,7 +85,7 @@ export default function Reserva() {
 
       <Navbar />
 
-      <main className="flex flex-col items-center justify-center h-screen bg-white text-grey-800">
+      <main className="flex flex-col items-center justify-center h-screen">
         {loading ? (
           <div>
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">{message}</h2>

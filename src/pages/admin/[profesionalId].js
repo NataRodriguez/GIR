@@ -5,8 +5,7 @@ import Navbar from '../../components/Layout/Navbar';
 import Footer from '../../components/Layout/Footer';
 import ScrollToTop from '../../components/Layout/ScrollToTop';
 import DatosProfesional from '../../components/DatosProfesional';
-import ReservasActivas from '../../components/ReservasActivas';
-import ReservasHistorico from '../../components/ReservasHistorico';
+import ListaReservas from '../../components/ListaReservas';
 
 export default function Profesional({ professional }){
   const router = useRouter();
@@ -23,7 +22,7 @@ export default function Profesional({ professional }){
       <Navbar />
       <main className=" bg-gray-100 text-gray-800">
         <div className="w-full max-w-6xl mx-auto p-4 text-center">
-          {router.isFallback ? '<div>Cargando...</div>' : <h1 className="text-3xl font-bold text-purple-700 mb-4">{professional.nombre}</h1>}
+          <h1 className="text-3xl font-bold text-purple-700 mb-4">{professional.nombre} {professional.apellido}</h1>
         </div>
         <div className="flex max-w-6xl mx-auto">
           <aside className="sticky w-64 bg-purple-800 text-white">
@@ -49,8 +48,8 @@ export default function Profesional({ professional }){
             </ul>
           </aside>
           <section className="flex-1">
-            {opcionSeleccionada === 1 && <ReservasActivas />}
-            {opcionSeleccionada === 2 && <ReservasHistorico/>}
+            {opcionSeleccionada === 1 && <ListaReservas profesionalId={professional.profesionalId} active="true" />}
+            {opcionSeleccionada === 2 && <ListaReservas profesionalId={professional.profesionalId} />}
             {opcionSeleccionada === 3 && <Suspense><DatosProfesional professional={professional} /></Suspense>}
           </section>
         </div>

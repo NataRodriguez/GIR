@@ -3,7 +3,7 @@ import Calendar from './Calendario'; // Asegúrate de que Calendar esté importa
 import { useAuth } from '../context/AuthContext';  // Ajusta la ruta según la ubicación real
 import Spinner from './Spinner';
 
-export default function ReservasActivas() {
+export default function ReservasActivas({ professionalId, userId}) {
   const { reservaData } = useAuth();
   const [loading, setLoading] = useState(true);
   const [horarios, setHorarios] = useState([]);  // Estado para almacenar los horarios

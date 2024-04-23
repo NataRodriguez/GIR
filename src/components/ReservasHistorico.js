@@ -1,12 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import Calendar from './Calendario'; // Asegúrate de que Calendar esté importado si lo estás utilizando
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';  // Ajusta la ruta según la ubicación real
 import Spinner from './Spinner';
 
 export default function ReservasHistorico() {
   const { reservaData } = useAuth();
   const [loading, setLoading] = useState(true);
-  const [horarios, setHorarios] = useState([]);  // Estado para almacenar los horarios
   const [message, setMessage] = useState('Cargando...'); // Mensaje inicial de carga
 
   useEffect(() => {
@@ -79,7 +77,7 @@ export default function ReservasHistorico() {
       ) : (
         <>
           <h2 className="text-xl font-semibold text-gray-700 mb-4">{message}</h2>
-          <Calendar horarios={horarios} />
+          <ListaReservas profesionalId={profesionalId} />
         </>
       )}
     </div>

@@ -2,7 +2,6 @@ import { useState, useCallback } from 'react';
 import Head from 'next/head';
 import Navbar from '../components/Layout/Navbar';
 import Footer from '../components/Layout/Footer';
-import ScrollToTop from '../components/Layout/ScrollToTop';
 import DatosUsuario from '../components/DatosUsuario';
 import ReservasHistorico from '../components/ReservasHistorico';
 import ListaReservasActivas from '../components/ReservasActivas';
@@ -10,8 +9,10 @@ import ListaReservasActivas from '../components/ReservasActivas';
 export default function Cuenta() {
   const [opcionSeleccionada, setOpcionSeleccionada] = useState(1);
   const handleClick = useCallback((opcion) => {
+    console.log("Opción seleccionada:", opcion); // Para debuggear
     setOpcionSeleccionada(opcion);
   }, []);
+  
 
   return (
     <div className=''>
@@ -51,13 +52,12 @@ export default function Cuenta() {
           </aside>
           <section className="flex-1">
             {opcionSeleccionada === 1 && <DatosUsuario />}
-            {opcionSeleccionada === 2 && <ReservasHistorico/>}
+            {opcionSeleccionada === 2 && <ReservasHistorico/> }
             {opcionSeleccionada === 3 && <ListaReservasActivas />}
           </section>
         </div>
       </main>
       <Footer />
-      <ScrollToTop />
     </div>
   );
 }

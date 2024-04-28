@@ -1,85 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';  // Ajusta la ruta según la ubicación real
 import Spinner from './Spinner';
 
-export default function ReservasHistorico() {
-  const { reservaData } = useAuth();
+function ReservasHistorico() {
+  const [reservas, setReservas] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState('Cargando...'); // Mensaje inicial de carga
+  const [error, setError] = useState('');
 
   useEffect(() => {
-      if (reservaData.especialidad && reservaData.comuna && reservaData.servicio) {
-        setMessage(`Buscando tu hora con un/a ${reservaData.especialidad}, en ${reservaData.comuna} para tu ${reservaData.servicio}`);
-          setTimeout(() => {
-            setLoading(false);
-            setMessage(`Selecciona tu hora con tu ${reservaData.especialidad}, en ${reservaData.comuna} para tu ${reservaData.servicio}`);
-          }, 5000);
+    const fetchReservas = async () => {
+      const usuarioId = localStorage.getItem('ID');
+      if (!usuarioId) {
+        setError('Usuario no identificado');
+        setLoading(false);
+        return;
       }
-  }, [reservaData]);
 
-  useEffect(() => {
-    const fetchHorarios = async (profesionalIds) => {
       try {
-        const response = await fetch('/api/horarios', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ profesionalIds })
-        });
+        const response = await fetch(`/api/reservasUsuario/${usuarioId}`);
         const data = await response.json();
-        console.log(data);
-        return data.horarios;
-      } catch (error) {
-        console.error('Error loading schedules:', error);
-        return [];
-      }
-    };
-  
-    const fetchProfesionales = async () => {
-      if (reservaData.especialidad && reservaData.comuna && reservaData.servicio) {
-        setLoading(true);
-        try {
-          const response = await fetch('/api/profesionales', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              especialidad: reservaData.especialidad,
-              comuna: reservaData.comuna,
-              servicio: reservaData.servicio
-            })
-          });
-          const data = await response.json();
-          if (data && Array.isArray(data)) {
-            const profesionalIds = data.map(prof => prof.profesionalId); // Asumiendo que profesionalId es un string o número directo
-            const horarios = await fetchHorarios(profesionalIds);
-            setHorarios(horarios);
-          } else {
-            console.log("Sin Datos o formato incorrecto:", data);
-          }
-          setLoading(false);
-        } catch (error) {
-          console.error('Error al traer los profesionales:', error);
-          setLoading(false);
+        if (response.ok) {
+          // Suponiendo que los datos vienen en un array y ya vienen ordenados del servidor
+          setReservas(data.reservas);
+        } else {
+          throw new Error(data.message || "Error al obtener las reservas");
         }
+      } catch (error) {
+        console.error('Error fetching reservas:', error);
+        setError(error.message);
       }
+      setLoading(false);
     };
-  
-    fetchProfesionales();
-  }, [reservaData]);
+
+    fetchReservas();
+  }, []);
+
+  if (loading) return <Spinner />;
+  if (error) return <p className="text-red-500">{error}</p>;
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      {loading ? (
-        <div>
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">{message}</h2>
-          <Spinner />
-        </div>
-        
-      ) : (
-        <>
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">{message}</h2>
-          <ListaReservas profesionalId={profesionalId} />
-        </>
-      )}
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Histórico de Reservas</h2>
+      <div className="w-full max-w-3xl">
+        {reservas.length ? (
+          reservas.map(reserva => (
+            <div key={reserva.reservaId} className="p-4 mb-2 shadow">
+              <p>Especialidad: {reserva.especialidad}</p>
+              <p>Fecha y hora: {reserva.fechaHora}</p>
+              <p>Estado: {reserva.estado}</p>
+            </div>
+          ))
+        ) : (
+          <p>No hay reservas históricas para mostrar.</p>
+        )}
+      </div>
     </div>
   );
 }
+
+export default ReservasHistorico;

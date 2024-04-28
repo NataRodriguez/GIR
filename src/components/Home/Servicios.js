@@ -1,4 +1,4 @@
-function Servicios() {
+export default function Servicios() {
   return (
     <section id="servicios" className="py-16 bg-gray-100 text-gray-800">
       <div className="container mx-auto px-4">
@@ -25,5 +25,3 @@ function Servicios() {
     </section>
   );
 }
-
-export default Servicios;

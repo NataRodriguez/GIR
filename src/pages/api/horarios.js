@@ -12,12 +12,10 @@ export default async function handler(req, res) {
                     ":profesionalId": String(profesionalId)  // Convertir a String si es necesario
                 }
             };
-            console.log(params);
             return dynamoDb.query(params).promise();
         });
         try {
             const results = await Promise.all(promises);
-            console.log(results);
             const horarios = results.map(result => result.Items).flat();
             res.status(200).json({ horarios });
         } catch (error) {

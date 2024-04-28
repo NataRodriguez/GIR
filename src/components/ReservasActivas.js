@@ -1,85 +1,97 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import Calendar from './Calendario'; // Asegúrate de que Calendar esté importado si lo estás utilizando
-import { useAuth } from '../context/AuthContext';  // Ajusta la ruta según la ubicación real
+import React, { useEffect, useState } from 'react';
 import Spinner from './Spinner';
+import ConfirmCancellationModal from './Modals/ConfirmCancellationModal'; // Asegúrate de importar el componente modal
 
-export default function ReservasActivas() {
-  const { reservaData } = useAuth();
+function ReservasActivas() {
+  const [reservas, setReservas] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [horarios, setHorarios] = useState([]);  // Estado para almacenar los horarios
-  const [message, setMessage] = useState('Cargando...'); // Mensaje inicial de carga
+  const [error, setError] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedReservaId, setSelectedReservaId] = useState(null);
 
   useEffect(() => {
-      if (reservaData.especialidad && reservaData.comuna && reservaData.servicio) {
-        setMessage(`Buscando tu hora con un/a ${reservaData.especialidad}, en ${reservaData.comuna} para tu ${reservaData.servicio}`);
-          setTimeout(() => {
-            setLoading(false);
-            setMessage(`Selecciona tu hora con tu ${reservaData.especialidad}, en ${reservaData.comuna} para tu ${reservaData.servicio}`);
-          }, 5000);
+    const fetchReservas = async () => {
+      const usuarioId = localStorage.getItem('ID');
+      if (!usuarioId) {
+        setError('Usuario no identificado');
+        setLoading(false);
+        return;
       }
-  }, [reservaData]);
 
-  useEffect(() => {
-    const fetchHorarios = async (profesionalIds) => {
       try {
-        const response = await fetch('/api/horarios', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ profesionalIds })
-        });
+        const response = await fetch(`/api/reservas/reservasUsuario/${usuarioId}`);
         const data = await response.json();
-        console.log(data);
-        return data.horarios;
+        if (!response.ok) throw new Error(data.message || "Error al obtener las reservas");
+
+        const reservasActivas = data.reservas.filter(reserva => reserva.estado === "Registrada");
+
+        const reservasConDetalles = await Promise.all(
+          reservasActivas.map(async (reserva) => {
+            const resp = await fetch(`/api/reservas/informacionProfesional/${reserva.profesionalId}`);
+            const profData = await resp.json();
+            return { ...reserva, profesional: profData };
+          })
+        );
+
+        setReservas(reservasConDetalles);
       } catch (error) {
-        console.error('Error loading schedules:', error);
-        return [];
+        console.error('Error fetching reservas:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
+
+    fetchReservas();
+  }, []);
+
+  const openModal = (reservaId) => {
+    setSelectedReservaId(reservaId);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedReservaId(null);
+  };
   
-    const fetchProfesionales = async () => {
-      if (reservaData.especialidad && reservaData.comuna && reservaData.servicio) {
-        setLoading(true);
-        try {
-          const response = await fetch('/api/profesionales', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              especialidad: reservaData.especialidad,
-              comuna: reservaData.comuna,
-              servicio: reservaData.servicio
-            })
-          });
-          const data = await response.json();
-          if (data && Array.isArray(data)) {
-            const profesionalIds = data.map(prof => prof.profesionalId); // Asumiendo que profesionalId es un string o número directo
-            const horarios = await fetchHorarios(profesionalIds);
-            setHorarios(horarios);
-          } else {
-            console.log("Sin Datos o formato incorrecto:", data);
-          }
-          setLoading(false);
-        } catch (error) {
-          console.error('Error al traer los profesionales:', error);
-          setLoading(false);
-        }
-      }
-    };  
-    fetchProfesionales();
-  }, [reservaData]);
+
+  if (loading) return <Spinner />;
+  if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      {loading ? (
-        <div>
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">{message}</h2>
-          <Spinner />
-        </div>
-      ) : (
-        <>
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">{message}</h2>
-          <Calendar horarios={horarios} />
-        </>
-      )}
+    <div className="flex flex-col items-center justify-center">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Reservas Activas</h2>
+      <div className="w-full max-w-3xl">
+        {reservas.length ? (
+          reservas.map(reserva => (
+            <div key={reserva.reservaId} className="p-4 mb-2 shadow-lg rounded bg-white flex justify-between items-center">
+              <div>
+                <p><strong>Profesional:</strong> {reserva.profesional?.nombre} {reserva.profesional?.apellido}</p>
+                <p><strong>Especialidad:</strong> {reserva.profesional?.especialidad}</p>
+                <p><strong>Servicio:</strong> {reserva.especialidad}</p>
+                <p><strong>Fecha y hora:</strong> {reserva.fechaHora}</p>
+                <p><strong>Estado:</strong> {reserva.estado}</p>
+              </div>
+              <button onClick={() => openModal(reserva.reservaId)} className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                Cancelar
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>No hay reservas activas para mostrar.</p>
+        )}
+      </div>
+      
+      <ConfirmCancellationModal
+              isOpen={modalOpen}
+              onClose={closeModal}
+              onCancel={closeModal}
+              reservaId={selectedReservaId}
+            />
     </div>
+    
   );
 }
+
+export default ReservasActivas;

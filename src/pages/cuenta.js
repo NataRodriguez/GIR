@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import Head from 'next/head';
-import Navbar from '../components/navbar';
-import Footer from '../components/footer';
+import Navbar from '../components/Layout/Navbar';
+import Footer from '../components/Layout/Footer';
 import DatosUsuario from '../components/DatosUsuario';
-import { useCallback } from 'react';
+import ReservasHistorico from '../components/ReservasHistorico';
+import ListaReservasActivas from '../components/ReservasActivas';
 
 export default function Cuenta() {
-  const [mostrarDatosUsuario, setMostrarDatosUsuario] = useState(false);
   const [opcionSeleccionada, setOpcionSeleccionada] = useState(1);
-
   const handleClick = useCallback((opcion) => {
-    setMostrarDatosUsuario(opcion === 1);
+    console.log("Opción seleccionada:", opcion); // Para debuggear
     setOpcionSeleccionada(opcion);
   }, []);
-
-  const scrollToTop = useCallback(() => {
-    document.getElementById('Inicio').scrollIntoView({ behavior: 'smooth' });
-  }, []);
+  
 
   return (
     <div className=''>
@@ -29,12 +25,10 @@ export default function Cuenta() {
           rel="stylesheet"
         />
       </Head>
-
       <Navbar />
-
-      <main className="max-w-6xl mx-auto">
-        <div className="flex">
-          <div className="sticky w-64 bg-purple-800 text-white">
+      <main className=" bg-gray-100 text-gray-800">
+        <div className="flex max-w-6xl mx-auto">
+          <aside className="sticky w-64 bg-purple-800 text-white">
             <ul>
               <li
                 className={`p-4 cursor-pointer ${opcionSeleccionada === 1 ? 'bg-purple-700' : 'hover:bg-purple-700'}`}
@@ -55,17 +49,15 @@ export default function Cuenta() {
                 Reservas Activas
               </li>
             </ul>
-          </div>
-          <div className="flex-1">
-            {mostrarDatosUsuario && <DatosUsuario />}
-          </div>
+          </aside>
+          <section className="flex-1">
+            {opcionSeleccionada === 1 && <DatosUsuario />}
+            {opcionSeleccionada === 2 && <ReservasHistorico/> }
+            {opcionSeleccionada === 3 && <ListaReservasActivas />}
+          </section>
         </div>
       </main>
-
       <Footer />
-      <button onClick={scrollToTop} className="fixed bottom-5 right-5 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full shadow-lg z-50">
-        Ir al Inicio
-      </button>
     </div>
   );
 }

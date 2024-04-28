@@ -45,7 +45,7 @@ export default async function handler(req, res) {
 
 
     // Contraseña correcta, usuario autenticado exitosamente
-    res.status(200).json({ message: 'Login exitoso', nombre: usuario.nombre, id: usuario.usuarioId, token  });
+    res.status(200).json({ message: 'Login exitoso', nombre: usuario.nombre, id: usuario.usuarioId, admin: usuario.admin, profesionalId: usuario.profesionalId, token  });
   } catch (error) {
     console.log('Error en el login:', error);
     res.status(500).json({ message: 'Error al procesar el login' });

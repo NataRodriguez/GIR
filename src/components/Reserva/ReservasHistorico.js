@@ -16,19 +16,25 @@ export default function ReservasHistorico() {
       }
 
       try {
-        const response = await fetch(`/api/reservasUsuario/${usuarioId}`);
+        const response = await fetch(`/api/reservas/reservasUsuario/${usuarioId}`);
         const data = await response.json();
-        if (response.ok) {
-          // Suponiendo que los datos vienen en un array y ya vienen ordenados del servidor
-          setReservas(data.reservas);
-        } else {
-          throw new Error(data.message || "Error al obtener las reservas");
-        }
+        if (!response.ok) throw new Error(data.message || "Error al obtener las reservas");
+
+        // Obtener detalles del profesional para cada reserva
+        const reservasConDetalles = await Promise.all(data.reservas.map(async (reserva) => {
+          const resp = await fetch(`/api/reservas/informacionProfesional/${reserva.profesionalId}`);
+          const profData = await resp.json();
+          console.log(profData);
+          return { ...reserva, profesional: profData }; // Suponiendo que la API devuelve un array con los detalles del profesional
+        }));
+
+        setReservas(reservasConDetalles);
       } catch (error) {
         console.error('Error fetching reservas:', error);
         setError(error.message);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchReservas();
@@ -38,15 +44,17 @@ export default function ReservasHistorico() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">Histórico de Reservas</h2>
       <div className="w-full max-w-3xl">
         {reservas.length ? (
           reservas.map(reserva => (
             <div key={reserva.reservaId} className="p-4 mb-2 shadow">
-              <p>Especialidad: {reserva.especialidad}</p>
-              <p>Fecha y hora: {reserva.fechaHora}</p>
-              <p>Estado: {reserva.estado}</p>
+              <p><strong>Profesional:</strong> {reserva.profesional?.nombre} {reserva.profesional?.apellido}</p>
+              <p><strong>Especialidad:</strong> {reserva.profesional?.especialidad}</p>
+              <p><strong>Servicio:</strong> {reserva.especialidad}</p>
+              <p><strong>Fecha y hora:</strong> {reserva.fechaHora}</p>
+              <p><strong>Estado:</strong> {reserva.estado}</p>
             </div>
           ))
         ) : (

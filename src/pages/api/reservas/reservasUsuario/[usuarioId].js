@@ -13,7 +13,6 @@ export default async function handler(req, res) {
       },
       ScanIndexForward: false // Para ordenar los resultados por fechaHora de forma descendente
     };
-
     try {
       const { Items } = await dynamoDb.query(queryParams).promise();
       if (!Items || Items.length === 0) {

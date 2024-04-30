@@ -6,9 +6,10 @@ export default function SeleccionProfesionalModal({ isOpen, onClose, professiona
   const [selectedProfessionalId, setSelectedProfessionalId] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [bookingDetails, setBookingDetails] = useState(null);
+  const [titulo, setTitulo] = useState(null);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const router = useRouter();
-  const [mensaje, setMensaje] = useState(null);
+  const [showButtons, setShowButtons] = useState(true);
 
   const usuarioId = localStorage.getItem('ID');
   if (!usuarioId) {
@@ -19,6 +20,7 @@ export default function SeleccionProfesionalModal({ isOpen, onClose, professiona
   useEffect(() => {
     if (isOpen) {
       resetModal();
+      setTitulo('Seleccione Hora');
     }
   }, [isOpen]);
 
@@ -40,11 +42,11 @@ export default function SeleccionProfesionalModal({ isOpen, onClose, professiona
       hora: startTime,
       dia: formattedDate,
       especialidad: reservaData.especialidad,
-      comuna: reservaData.comuna,
-      additionalText: "Si desea cancelar la hora revise su cuenta, o llame al 123 123 1234"
+      comuna: reservaData.comuna
     });
+    setTitulo('Datos Reserva');
+
     setConfirmationVisible(true);
-    setMensaje('Datos Reserva');
   };
   const resetModal = () => {
     setSelectedProfessionalId(null);
@@ -86,7 +88,12 @@ export default function SeleccionProfesionalModal({ isOpen, onClose, professiona
       const data = await response.json();
 
       if (response.ok) {
-        setMensaje('Reserva Exitosa');
+        setBookingDetails({
+          additionalText: "Si desea cancelar la hora revise su cuenta, o llame al 123 123 1234"
+        });
+        setTitulo('Reserva Exitosa');
+        setShowButtons(false); 
+
         setTimeout(() => {
           onClose();
           router.push('/'); 
@@ -103,8 +110,8 @@ export default function SeleccionProfesionalModal({ isOpen, onClose, professiona
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
       <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 p-4 w-full max-w-lg max-h-full">
         <div className="modal p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-semibold">{mensaje}</h3>
+          <div className="flex items-center justify-center mb-4">
+            <h3 className="text-xl font-semibold ">{titulo}</h3>
           </div>
           {bookingDetails ? (
             <div className="text-sm bg-gray-100 p-4 rounded-lg">
@@ -113,10 +120,12 @@ export default function SeleccionProfesionalModal({ isOpen, onClose, professiona
               <p><strong>Especialidad:</strong> {bookingDetails.especialidad}</p>
               <p><strong>Comuna:</strong> {bookingDetails.comuna}</p>
               <p className="text-red-600">{bookingDetails.additionalText}</p>
-              <div className="mt-4 flex justify-between">
-                <button onClick={onClose} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700">Cancelar</button>
-                <button onClick={handleReserve} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Reservar</button>
-              </div>
+              {showButtons && (
+                <div className="mt-4 flex justify-between">
+                  <button onClick={onClose} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700">Cancelar</button>
+                  <button onClick={handleReserve} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Reservar</button>
+                </div>
+              )}
             </div>
           ) : (
             <div>

@@ -88,9 +88,10 @@ function SeleccionProfesionalModal({ isOpen, onClose, professionals, selectedDay
       const data = await response.json();
 
       if (response.ok) {
-        setBookingDetails({
+        setBookingDetails(prevBookingDetails => ({
+          ...prevBookingDetails,
           additionalText: "Si desea cancelar la hora revise su cuenta, o llame al 123 123 1234"
-        });
+        }));
         setTitulo('Reserva Exitosa');
         setShowButtons(false); 
 

@@ -1,6 +1,14 @@
+<<<<<<< Updated upstream:src/components/ReservasActivas.js
 import React, { useEffect, useState } from 'react';
 import Spinner from './Spinner';
 import ConfirmCancellationModal from './Modals/ConfirmCancellationModal'; // Asegúrate de importar el componente modal
+=======
+import { useEffect, useState } from 'react';
+import { useAuth } from '../../context/AuthContext';  // Ajusta la ruta según la ubicación real
+import Calendar from '../Calendario'; // Asegúrate de que Calendar esté importado si lo estás utilizando
+import Spinner from '../Spinner';
+import ConfirmCancellationModal from '../Modals/ConfirmCancellationModal'; // Asegúrate de importar el componente modal
+>>>>>>> Stashed changes:src/components/Reserva/ReservasActivas.js
 
 function ReservasActivas() {
   const [reservas, setReservas] = useState([]);

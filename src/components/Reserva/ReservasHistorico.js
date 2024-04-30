@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Spinner from './Spinner';
+import { useEffect, useState } from 'react';
+import Spinner from '../Spinner';
 
-function ReservasHistorico() {
+export default function ReservasHistorico() {
   const [reservas, setReservas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -56,5 +56,3 @@ function ReservasHistorico() {
     </div>
   );
 }
-
-export default ReservasHistorico;

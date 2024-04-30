@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     comuna: '',
     servicio: ''
   });
-
+  
   // Load user from localStorage when component mounts
   useEffect(() => {
     const nombre = localStorage.getItem('nombre');
@@ -22,9 +22,9 @@ export const AuthProvider = ({ children }) => {
     const profesionalId = localStorage.getItem('profesionalId');
     if (nombre) {
       setUser({ nombre, id, isAdmin, profesionalId });
-      if (isAdmin) {
-        router.push(`/admin/${profesionalId}`);  // Redirect if user is an admin
-      }
+    }
+    if (router.pathname.startsWith('/admin') && !isAdmin) {
+      router.push('/');  // Redirect to homepage, change this to where you want to redirect
     }
   }, [router]);  // Include router in the dependency array to ensure it's available
 
@@ -34,9 +34,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('isAdmin', userData.isAdmin);
     localStorage.setItem('profesionalId', userData.profesionalId);
     setUser(userData);
-    if (userData.isAdmin) {
-      router.push(`/admin/${userData.profesionalId}`);
-    }
   };
 
   const logout = () => {

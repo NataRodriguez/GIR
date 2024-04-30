@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import Calendar from './Calendario'; // Asegúrate de que Calendar esté importado si lo estás utilizando
-import { useAuth } from '../context/AuthContext';  // Ajusta la ruta según la ubicación real
-import Spinner from './Spinner';
+import { useEffect, useState } from 'react';
+import { useAuth } from '../../context/AuthContext';  // Ajusta la ruta según la ubicación real
+import Calendar from '../Calendario'; // Asegúrate de que Calendar esté importado si lo estás utilizando
+import Spinner from '../Spinner';
 
 export default function ReservasActivas() {
   const { reservaData } = useAuth();
@@ -40,7 +40,7 @@ export default function ReservasActivas() {
       if (reservaData.especialidad && reservaData.comuna && reservaData.servicio) {
         setLoading(true);
         try {
-          const response = await fetch('/api/profesionales', {
+          const response = await fetch('/api/profesionalesFiltered', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

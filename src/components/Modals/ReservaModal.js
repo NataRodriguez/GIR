@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../context/AuthContext';
 import regionesYComunas from '../../utils/regionesYComunas.json';
 import Spinner from '../Spinner'; // Asegúrate de tener este componente
 
-function ReservaModal({ isOpen, onClose, onConfirm }) {
+export default function ReservaModal({ isOpen, onClose, onConfirm }) {
   const [especialidades, setEspecialidades] = useState([]);
   const [selectedEspecialidad, setSelectedEspecialidad] = useState('');
   const [regiones, setRegiones] = useState(Object.keys(regionesYComunas.regiones));
@@ -32,7 +32,7 @@ function ReservaModal({ isOpen, onClose, onConfirm }) {
           setError('Error al cargar especialidades.');
           setLoading(false);
         });
-    }else{
+    } else {
       setSelectedEspecialidad('');
       setSelectedRegion('');
       setSelectedComuna('');
@@ -161,6 +161,4 @@ function ReservaModal({ isOpen, onClose, onConfirm }) {
       </div>
     </div>
   );
-}
-
-export default ReservaModal;
+};

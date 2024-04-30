@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Spinner from './Spinner';
+import Spinner from '../Spinner';
 import Reserva from './Reserva';
 
 export default function ListaReservas({ active = null, profesionalId = null, userId = null }) {

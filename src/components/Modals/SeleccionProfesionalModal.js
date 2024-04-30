@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 
-function SeleccionProfesionalModal({ isOpen, onClose, professionals, selectedDayOfWeek, reservaData, selectedDate }) {
+export default function SeleccionProfesionalModal({ isOpen, onClose, professionals, selectedDayOfWeek, reservaData, selectedDate }) {
   const [selectedProfessionalId, setSelectedProfessionalId] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [bookingDetails, setBookingDetails] = useState(null);
@@ -157,6 +157,4 @@ function SeleccionProfesionalModal({ isOpen, onClose, professionals, selectedDay
       </div>
     </div>
   );
-}
-
-export default SeleccionProfesionalModal;
+};

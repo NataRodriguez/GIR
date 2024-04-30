@@ -1,8 +1,7 @@
-// src/components/LoginModal.js
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext.js';
 
-const LoginModal = ({ isOpen, onClose }) => {
+export default function LoginModal({ isOpen, onClose }){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -84,5 +83,3 @@ const LoginModal = ({ isOpen, onClose }) => {
 </div>
   );
 };
-
-export default LoginModal;

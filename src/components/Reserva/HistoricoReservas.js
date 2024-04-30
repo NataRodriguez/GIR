@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { obtenerReservasPorUsuario } from '../../../pages/api/historico';
-import { useAuth } from '../context/AuthContext'; // Importa el contexto de autenticación
+import { useAuth } from '../../context/AuthContext'; // Importa el contexto de autenticación
 
-const HistoricoReservas = () => {
+export default function HistoricoReservas(){
   const [reservas, setReservas] = useState([]); 
   const { usuario } = useAuth(); // Obtén el objeto de usuario autenticado del contexto de autenticación
 
@@ -40,5 +40,3 @@ const HistoricoReservas = () => {
     </div>
   );
 };
-
-export default HistoricoReservas;

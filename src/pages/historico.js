@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import Navbar from '../components/navbar'; 
-import Footer from '../components/footer'; 
-import Head from 'next/head';
+import Footer from '../components/footer';
 // import HistoricoReservas from '../components/HistoricoReservas'; -- comento esta linea porque al dejarla activa da error en las páginas
 
 const Historico = () => {
@@ -16,19 +15,8 @@ const Historico = () => {
   }, []);
 
   return (
-    <div>
-      <Head>
-        <title>Historial de Reservas - GIR</title>
-        <meta name="description" content="Historial de reservas de usuario en GIR" />
-        <link rel="icon" href="/favicon.ico" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
-
+    <>
       <Navbar />
-
       <main className="max-w-6xl mx-auto">
         <div className="flex">
           <div className="sticky w-64 bg-purple-800 text-white">
@@ -63,7 +51,7 @@ const Historico = () => {
       <button onClick={scrollToTop} className="fixed bottom-5 right-5 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full shadow-lg z-50">
         Ir al Inicio
       </button>
-    </div>
+    </>
   );
 };
 

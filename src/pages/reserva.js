@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import Head from 'next/head';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Layout/Navbar';
 import Footer from '../components/Layout/Footer';
 import ScrollToTop from '../components/Layout/ScrollToTop';
@@ -11,7 +10,6 @@ export default function Reserva() {
   const { reservaData } = useAuth();
   const [loading, setLoading] = useState(true);
   const [horarios, setHorarios] = useState([]);
-
   const [message, setMessage] = useState('Cargando...');
 
   useEffect(() => {
@@ -30,7 +28,7 @@ export default function Reserva() {
       if (reservaData.especialidad && reservaData.comuna && reservaData.servicio) {
         setLoading(true);
         try {
-          const responseProfesionales = await fetch('/api/profesionales', {
+          const responseProfesionales = await fetch('/api/profesionalesFiltered', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -79,16 +77,8 @@ export default function Reserva() {
   }, [reservaData]);
   
   return (
-    <div>
-      <Head>
-        <title>GIR - Reserva</title>
-        <meta name="description" content="GIR" />
-        <link rel="icon" href="/favicon.ico" />
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-      </Head>
-
+    <>
       <Navbar />
-
       <main className="flex flex-col items-center justify-center h-screen bg-white text-grey-800">
         {loading ? (
           <div>
@@ -102,9 +92,8 @@ export default function Reserva() {
           </>
         )}
       </main>
-
       <Footer />
       <ScrollToTop />
-    </div>
+    </>
   );
 }

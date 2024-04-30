@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import SeleccionProfesionalModal from '../components/Modals/SeleccionProfesionalModal';
 
-function Calendario({ horarios, reservaData }) {
+export default function Calendario({ horarios, reservaData }) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -137,5 +137,3 @@ function Calendario({ horarios, reservaData }) {
     </div>
   );
 }
-
-export default Calendario;

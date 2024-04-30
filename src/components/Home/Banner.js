@@ -8,13 +8,14 @@ export default function Banner() {
     const [isModalOpen, setModalOpen] = useState(false); // Estado para controlar la visibilidad del modal
 
     return (
-        <div className="relative bg-purple-200 h-screen flex items-center justify-start text-left p-10">
+        <div className="relative bg-purple-200 h-screen flex items-center justify-start text-left p-10 w-full">
             <Image
                 src="/images/bg-front.webp"
                 alt="Fondo"
-                layout="fill"
-                objectFit="cover"
-                className="z-[0]" // Asegura que la imagen de fondo esté detrás del contenido
+                width='1237'
+                height='727'
+                className="absolute inset-0 h-full w-full object-cover z-[0]" // Asegura que la imagen de fondo esté detrás del contenido
+                priority={true}
             />
 
             <div className="z-10 max-w-lg bg-gray-300 ml-20 bg-opacity-75 p-6 rounded-lg shadow-lg">

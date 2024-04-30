@@ -1,7 +1,6 @@
-// components/RegisterModal.js
 import { useState } from 'react';
 
-const RegisterModal = ({ isOpen, onClose }) => {
+export default function RegisterModal({ isOpen, onClose }){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [nombre, setNombre] = useState('');
@@ -78,5 +77,3 @@ const RegisterModal = ({ isOpen, onClose }) => {
     </div>
   );
 };
-
-export default RegisterModal;

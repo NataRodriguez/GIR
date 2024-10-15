@@ -1,0 +1,577 @@
+/* Este repositório base fué creado para ayudarte en caso que no sepas como comenzar, recuerda que el portafolio es tu carta de presentación y debes darle tu cara, por eso te invitamos a personalizarlo según tu estilo y preferencias no te limites apenas al layout propuesto en figma  
+*/
+:root {
+    --color-de-fondo: #F5F5F5;
+    --color-de-fondo-menu: #ffffff;
+    --color-de-link: #000000;
+}
+
+body {
+    background-color: var(--color-de-fondo);
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    line-height: 1.6;
+}
+
+ol, ul, li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-de-link);
+}
+
+/* ------------------------------ Sección Menú -------------------------------*/
+.cabecera {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--color-de-fondo-menu);
+}
+
+.cabecera__logo-titulo {
+    display: flex; /* Alinea el logo y el título en una fila */
+    align-items: center; /* Alinea verticalmente el logo y el título */
+}
+
+.cabecera__logo {
+    max-width: 80px; /* Ajuste para pantallas pequeñas */
+    height: auto;
+    margin-right: 5px; /* Espacio entre el logo y el título */
+}
+
+.cabecera__titulo {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-left: 1rem; /* Espacio entre el logo y el título */
+}
+
+.navegacion {
+    margin-top: 1rem;
+}
+
+.navegacion__lista {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    gap: 1rem; /* Espacio entre los elementos */
+}
+
+.navegacion__elemento a {
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: var(--color-texto);
+    transition: color 0.3s;
+}
+
+/* ------------------------------ Sección Presentación ------------------------------*/
+
+.presentacion {
+    display: flex;
+    flex-direction: row-reverse; /* Coloca la imagen a la derecha y el texto a la izquierda */
+    align-items: center;
+    justify-content: center; /* Mantiene el centro horizontal */
+    padding: 2rem;
+    background-color: #f5f5f5; /* Color de fondo */
+    gap: 2rem; /* Espacio entre la imagen y el texto */
+}
+
+.presentacion__foto {
+    border-radius: 50%; /* Hace la imagen circular */
+    max-width: 300px; /* Ajusta el tamaño más grande de la imagen */
+    max-height: 300px; /* Ajusta la altura máxima para mantener la proporción */
+    height: auto; /* Mantén la proporción de la imagen */
+    object-fit: cover; /* Ajusta la imagen dentro del marco circular */
+}
+
+.presentacion__contenedor {
+    text-align: left; /* Alinea el texto a la izquierda */
+    max-width: 600px; /* Limita el ancho del contenedor de texto */
+}
+
+.presentacion__titulo {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #333; /* Color del título */
+}
+
+.presentacion__subtitulo {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #666; /* Color del subtítulo */
+    margin-bottom: 1.5rem;
+}
+
+.redes {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem; /* Espacio entre los elementos de redes sociales */
+}
+
+.redes__img a {
+    text-decoration: none;
+    font-size: 1rem;
+    color: #333; /* Color de los enlaces */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Espacio entre el texto y la flecha */
+}
+
+.redes__img img {
+    width: 12px;
+    height: 12px; /* Tamaño de la flecha */
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
+    .presentacion {
+        flex-direction: column; /* En pantallas pequeñas, coloca la imagen arriba y el texto abajo */
+        text-align: center;
+    }
+
+    .presentacion__contenedor {
+        text-align: center; /* Centra el texto en pantallas pequeñas */
+    }
+}
+
+
+/* ------------------------------ Sección sobre mí ----------------------------------*/
+
+.sobre-mi {
+    margin: 0 auto; /* Centra la sección en la página */
+    padding: 3rem 4rem; /* Espaciado interno */
+    background-color: #eaf3fc; /* Color de fondo suave */
+    border-radius: 10px; /* Bordes redondeados para un estilo suave */
+    text-align: left; /* Alineación del texto a la izquierda */
+}
+
+.sobre-mi__titulo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333; /* Color del título */
+    margin-bottom: 1.5rem; /* Espaciado inferior del título */
+}
+
+.sobre-mi__texto {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #666; /* Color del texto */
+    line-height: 1.8; /* Espaciado entre líneas */
+    margin-bottom: 1.5rem;
+}
+
+.sobre-mi__firma {
+    display: block;
+    margin-top: 2rem;
+    margin-left: 0; /* Firma alineada a la izquierda */
+    max-width: 120px; /* Ajusta el tamaño de la firma */
+    height: auto; /* Mantén la proporción de la firma */
+}
+
+
+/*------------------------------ Sección de Habilidades ------------------------------*/
+
+.habilidades {
+    margin: 0 auto; /* Centra la sección */
+    padding: 3rem 2rem; /* Espaciado interno */
+    text-align: center; /* Centra los textos */
+}
+
+.habilidades__titulo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333; /* Color del título */
+    margin-bottom: 2rem;
+}
+
+.habilidades__lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Distribuye los ítems en una cuadrícula flexible */
+    gap: 2rem; /* Espacio entre los ítems */
+    list-style: none; /* Elimina el estilo de lista predeterminado */
+    padding: 0;
+}
+
+.habilidades__elemento {
+    background-color: #fff;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave para dar profundidad */
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.habilidades__elemento:hover {
+    transform: translateY(-10px); /* Efecto de elevación al hacer hover */
+}
+
+.habilidades__icono {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+}
+
+.habilidades__nombre {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333; /* Color del texto */
+}
+
+/*------------------------------ Sección de Aficiones --------------------------------*/
+
+.aficiones {
+    max-width: 1200px; /* Limita el ancho máximo */
+    margin: 0 auto; /* Centra la sección */
+    padding: 3rem 2rem; /* Espaciado interno */
+    text-align: center; /* Centra los textos */
+}
+
+.aficiones__titulo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333; /* Color del título */
+    margin-bottom: 2rem;
+}
+
+.aficiones__lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Cuadrícula flexible */
+    gap: 2rem; /* Espacio entre los elementos */
+    list-style: none; /* Elimina el estilo de lista predeterminado */
+    padding: 0;
+}
+
+.aficiones__elemento {
+    background-color: #fff;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.aficiones__elemento:hover {
+    transform: translateY(-10px); /* Efecto de elevación al hacer hover */
+}
+
+.aficiones__icono {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+}
+
+.aficiones__nombre {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333; /* Color del texto */
+}
+
+/*------------------------------ Sección de Formación --------------------------------*/
+
+.formacion {
+    margin: 0 auto; /* Centra la sección */
+    padding: 3rem 2rem; /* Espaciado interno */
+    background-color: #eaf3fc; /* Fondo suave */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.formacion__titulo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    text-align: center; /* Título centrado */
+    margin-bottom: 2rem;
+}
+
+.formacion__lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Cuadrícula adaptable */
+    gap: 2rem; /* Espacio entre los elementos */
+    padding: 0;
+    list-style: none; /* Elimina los puntos de lista predeterminados */
+}
+
+.formacion__elemento {
+    background-color: #fff; /* Fondo blanco para las tarjetas */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 2rem;
+    text-align: center; /* Centra el contenido dentro de cada tarjeta */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formacion__icono {
+    width: 100px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.formacion__nombre {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.formacion__detalle {
+    font-size: 1rem;
+    color: #666;
+}
+
+/*------------------------------ Sección de Proyectos --------------------------------*/
+
+.proyectos {
+    padding: 2rem 1rem;
+}
+
+.proyectos__titulo {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    font-weight: 700;
+}
+
+.proyecto {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    background-color: #f5f5f5;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.proyecto__imagen {
+    max-width: 300px;
+    margin-right: 2rem;
+    border-radius: 8px;
+}
+
+.proyecto__contenido {
+    flex-grow: 1;
+}
+
+.proyecto__nombre {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.proyecto__descripcion {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.proyecto__botones {
+    display: flex;
+    gap: 1rem;
+}
+
+.proyecto__boton {
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.proyecto__boton--primario {
+    background-color: #28a745;
+}
+
+.proyecto__boton:hover {
+    background-color: #0056b3;
+}
+
+.proyecto__boton--primario:hover {
+    background-color: #218838;
+}
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+    .proyecto {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .proyecto__imagen {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+}
+
+
+/*------------------------------ Sección de Contacto ---------------------------------*/
+
+.contacto {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    background-color: #eaf3fc;
+    border-radius: 10px;
+}
+
+.contacto__imagen {
+    max-width: 400px;
+    margin-right: 2rem;
+}
+
+.contacto__contenido {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    width: 100%;
+}
+
+.contacto__titulo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.contacto__texto {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.contacto__formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.contacto__campo {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.contacto__campo--textarea {
+    height: 150px;
+    resize: none;
+}
+
+.contacto__boton {
+    padding: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contacto__boton:hover {
+    background-color: #0056b3;
+}
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+    .contacto {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .contacto__imagen {
+        margin-right: 0;
+        margin-bottom: 2rem;
+    }
+
+    .contacto__contenido {
+        max-width: 100%;
+    }
+}
+
+/* ------------------------------ Footer ---------------------------------------*/
+
+.footer {
+    display: flex;
+    justify-content: center; /* Centra el texto horizontalmente */
+    align-items: center;     /* Centra el contenido verticalmente */
+    padding: 1rem;
+    background-color: #f0f4f8;
+    font-size: 1rem;
+    color: #333;
+    width: 100%;
+    text-align: center;
+}
+
+/* ------------------------------ Responsividad ---------------------------------------*/
+/* Tablets y pantallas más grandes */
+@media (min-width: 768px) {
+    .cabecera {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .cabecera__logo {
+        max-width: 100px;
+    }
+
+    .cabecera__titulo {
+        font-size: 1.5rem;
+    }
+
+    .navegacion__lista {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        margin-top: 0;
+    }
+
+    .navegacion__elemento a {
+        font-size: 1rem;
+    }
+}
+
+/* Pantallas grandes */
+@media (min-width: 1024px) {
+    /* Aquí puedes ajustar aún más el diseño para pantallas grandes */
+    .cabecera__titulo {
+        font-size: 1.8rem;
+    }
+
+    .navegacion__elemento a {
+        font-size: 1.1rem;
+    }
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
+    .presentacion {
+        flex-direction: column; /* En pantallas pequeñas, coloca la imagen arriba y el texto abajo */
+    }
+
+    .presentacion__contenedor, .sobre-mi {
+        text-align: center; /* Centra el texto en pantallas pequeñas */
+    }
+
+    .sobre-mi__firma {
+        margin-right: auto;
+    }
+}
